@@ -28,8 +28,13 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $role = Auth::user()->role;
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if ($role == 1) {
+            return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
+        } else {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
     }
 
     /**
@@ -43,6 +48,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/Produit');
     }
 }
